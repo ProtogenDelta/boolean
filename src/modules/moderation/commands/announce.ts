@@ -11,7 +11,7 @@ import {
     PermissionFlagsBits,
     TextInputStyle,
 } from "discord-api-types/v10";
-import { getSpecialChannel, getSpecialRole } from "../database";
+import { getSpecialChannel, getSpecialRole } from "../../simple/database";
 import BotCommand from "../../../structures/BotCommand";
 
 class Announce extends BotCommand {

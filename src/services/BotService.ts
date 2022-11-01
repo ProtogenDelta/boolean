@@ -5,6 +5,8 @@ import ModmailModule from "../modules/modmail";
 import BotEvent from "../structures/BotEvent";
 import BotCommand from "../structures/BotCommand";
 import LoggerFactory from "../providers/LoggerFactory";
+import ModModule from "../modules/moderation";
+import RoleMenuModule from "../modules/rolemenus";
 
 export default class BotService extends Client<true> {
     private readonly commands: Collection<string, BotCommand>;
@@ -25,14 +27,16 @@ export default class BotService extends Client<true> {
 
     public async start(): Promise<void> {
         const mods = new ModResolutionService();
-        await this.login(process.env.TOKEN || "");
-        await this.clearCmds();
+        // TODO(dylhack): replace with ZIP loader
         await Promise.all(
-            [new SimpleModule(mods), new ModmailModule()].map((m) =>
-                m.onEnable()
-            )
+            [
+                new SimpleModule(mods),
+                new ModModule(mods),
+                new RoleMenuModule(mods),
+                new ModmailModule(),
+            ].map((m) => m.onEnable())
         );
-        // TODO(dylhack): implement tick system
+        await this.login(process.env.TOKEN || "");
         setTimeout(this.registerCmds.bind(this), 5000);
     }
 
@@ -59,6 +63,7 @@ export default class BotService extends Client<true> {
     }
 
     public async registerCmds(): Promise<void> {
+        await this.clearCmds();
         const logger = LoggerFactory.getLogger("init");
         const devServer = process.env.DEV_SERVER;
         const cmds = this.commands.map((cmd) => {

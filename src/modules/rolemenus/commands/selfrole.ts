@@ -6,7 +6,7 @@ import {
     getRoleLists,
     removeRoleChoice,
     removeRoleList,
-} from "../database";
+} from "../../simple/database";
 import BotCommand from "../../../structures/BotCommand";
 
 class SelfRole extends BotCommand {

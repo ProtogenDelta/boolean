@@ -1,5 +1,7 @@
 import path from "node:path";
 import fs from "node:fs";
+import BotFactory from "../providers/BotFactory";
+import LoggerFactory from "../providers/LoggerFactory";
 
 export default class ModResolutionService {
     public walk(
@@ -25,5 +27,42 @@ export default class ModResolutionService {
             ];
         }
         return results;
+    }
+
+    public async initModules(
+        module: string,
+        root: string,
+        folder: string
+    ): Promise<void> {
+        const files = this.walk(path.join(root, folder)).filter((file) =>
+            [".ts", ".js"].some((ext) => {
+                return file.endsWith(ext);
+            })
+        );
+        const bot = BotFactory.getBot();
+        const logger = LoggerFactory.getLogger(module);
+        const tasks: Promise<unknown>[] = [];
+        for (let i = 0; i < files.length; i += 1) {
+            const file = files[i];
+            const task = import(file);
+            task.then((module) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const result = module.default;
+                if (!result) {
+                    logger.error(
+                        `File at path ${file} seems to ` +
+                            "incorrectly be exporting an event.",
+                        null
+                    );
+                } else {
+                    tasks.push(bot.register(result));
+                }
+            });
+            tasks.push(task);
+        }
+
+        await Promise.all(tasks).catch((err) =>
+            logger.error("init modules failed", err)
+        );
     }
 }

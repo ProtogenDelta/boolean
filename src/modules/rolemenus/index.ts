@@ -1,7 +1,7 @@
 import IModule from "../../interfaces/IModule";
 import ModResolutionService from "../../services/ModResolutionService";
 
-export default class SimpleModule implements IModule {
+export default class RoleMenuModule implements IModule {
     private readonly mods: ModResolutionService;
 
     constructor(mods: ModResolutionService) {
@@ -11,7 +11,6 @@ export default class SimpleModule implements IModule {
     public async onDisable(): Promise<void> {}
 
     public async onEnable(): Promise<void> {
-        await this.mods.initModules("simple", __dirname, "commands");
-        await this.mods.initModules("simple", __dirname, "events");
+        await this.mods.initModules("rolemenu", __dirname, "commands");
     }
 }

@@ -5,7 +5,7 @@ import {
     SelectMenuComponentOptionData,
     SlashCommandBuilder,
 } from "discord.js";
-import { getRoleLists } from "../database";
+import { getRoleLists } from "../../simple/database";
 import BotCommand from "../../../structures/BotCommand";
 
 class RoleMe extends BotCommand {

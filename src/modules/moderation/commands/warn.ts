@@ -13,7 +13,7 @@ import {
     PermissionFlagsBits,
     TextInputStyle,
 } from "discord-api-types/v10";
-import { getSpecialChannel } from "../database";
+import { getSpecialChannel } from "../../simple/database";
 import BotCommand from "../../../structures/BotCommand";
 
 class Warnings extends BotCommand {

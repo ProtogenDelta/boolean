@@ -13,7 +13,7 @@ import {
     setSpecialRole,
     SpecialChannel,
     SpecialRole,
-} from "../database";
+} from "../../simple/database";
 import BotCommand from "../../../structures/BotCommand";
 
 const badges: APIApplicationCommandOptionChoice<string>[] = Object.keys(
