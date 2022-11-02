@@ -6,10 +6,10 @@ import {
     TextChannel,
 } from "discord.js";
 import { Modmail, ModmailMessage } from "@prisma/client";
+import { APIEmbed } from "discord-api-types/v10";
 import ModmailDatabase from "../database/ModmailDatabase";
 import ModmailEmbedFactory from "../providers/ModmailEmbedFactory";
 import LoggerFactory from "../../../providers/LoggerFactory";
-import { APIEmbed } from "discord-api-types/v10";
 import BotFactory from "../../../providers/BotFactory";
 
 type OpenOptions = {

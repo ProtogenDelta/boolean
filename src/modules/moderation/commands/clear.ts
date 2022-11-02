@@ -59,7 +59,8 @@ class Clear extends BotCommand {
                     ` "${msg.content}" from ${msg.author}`
             );
         const tasks: Promise<unknown>[] = [];
-        for (const [_, msg] of deleted) {
+        for (let i = 0; i < deleted.size; i += 1) {
+            const msg = deleted.at(i);
             let task;
             if (msg) {
                 if (msg.partial) {

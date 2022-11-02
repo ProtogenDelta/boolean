@@ -72,5 +72,7 @@ export default class ModmailModule implements IModule {
         );
     }
 
-    public async onDisable(): Promise<void> {}
+    public async onDisable(): Promise<void> {
+        // Do nothing
+    }
 }

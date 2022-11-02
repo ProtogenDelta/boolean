@@ -8,7 +8,9 @@ export default class SimpleModule implements IModule {
         this.mods = mods;
     }
 
-    public async onDisable(): Promise<void> {}
+    public async onDisable(): Promise<void> {
+        // Do nothing
+    }
 
     public async onEnable(): Promise<void> {
         await this.mods.initModules("simple", __dirname, "commands");

@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import ModResolutionService from "./ModResolutionService";
 import SimpleModule from "../modules/simple";
 import ModmailModule from "../modules/modmail";
-import BotEvent from "../structures/BotEvent";
+import BotEvent, { EventName } from "../structures/BotEvent";
 import BotCommand from "../structures/BotCommand";
 import LoggerFactory from "../providers/LoggerFactory";
 import ModModule from "../modules/moderation";
@@ -44,8 +44,13 @@ export default class BotService extends Client<true> {
         return this.commands.get(name) || null;
     }
 
-    public async register(event: BotEvent<any>): Promise<void>;
+    public async register<T extends EventName>(
+        event: BotEvent<T>
+    ): Promise<void>;
+
     public async register(cmd: BotCommand): Promise<void>;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async register(x: BotEvent<any> | BotCommand): Promise<void> {
         if (x instanceof BotCommand) {
             await this.registerCmd(x);
@@ -66,9 +71,7 @@ export default class BotService extends Client<true> {
         await this.clearCmds();
         const logger = LoggerFactory.getLogger("init");
         const devServer = process.env.DEV_SERVER;
-        const cmds = this.commands.map((cmd) => {
-            return cmd.data;
-        });
+        const cmds = this.commands.map((cmd) => cmd.data);
         if (devServer && devServer.length > 0) {
             await this.application.commands.set(cmds, devServer);
             logger.warn(`Registered ${cmds.length} command(s) to ${devServer}`);
@@ -79,7 +82,7 @@ export default class BotService extends Client<true> {
         }
     }
 
-    private registerEvent(event: BotEvent<any>): void {
+    private registerEvent<T extends EventName>(event: BotEvent<T>): void {
         const logger = LoggerFactory.getLogger("init");
 
         if (event.once) {

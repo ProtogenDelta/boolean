@@ -23,7 +23,9 @@ class MessageDeleteEvent extends BotEvent<"messageDelete"> {
         let report = `${message.author} has deleted the message "${message.content}"`;
         if (message.attachments.size > 0) {
             report += "\n with attachments:";
-            message.attachments.forEach((a) => (report += `\n - ${a.url}`));
+            message.attachments.forEach((a) => {
+                report += `\n - ${a.url}`;
+            });
         }
 
         logger.info(report);

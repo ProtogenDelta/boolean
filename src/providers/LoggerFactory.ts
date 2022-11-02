@@ -1,10 +1,10 @@
 import ILogger from "../interfaces/ILogger";
+import DumbyLogger from "./loggers/DumbyLogger";
 import ServerLogger from "./loggers/ServerLogger";
 
 export default class LoggerFactory {
     public static getLogger(module: string): ILogger {
-        // TODO(dylhack): create a sentry logger
-        return console;
+        return new DumbyLogger(module);
     }
 
     public static getGuildLogger(module: string, guildId: string): ILogger {

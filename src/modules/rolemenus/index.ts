@@ -8,7 +8,9 @@ export default class RoleMenuModule implements IModule {
         this.mods = mods;
     }
 
-    public async onDisable(): Promise<void> {}
+    public async onDisable(): Promise<void> {
+        // Do nothing
+    }
 
     public async onEnable(): Promise<void> {
         await this.mods.initModules("rolemenu", __dirname, "commands");

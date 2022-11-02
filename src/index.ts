@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import "dotenv/config";
 import BotFactory from "./providers/BotFactory";
 

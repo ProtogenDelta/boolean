@@ -35,9 +35,7 @@ export default class ModResolutionService {
         folder: string
     ): Promise<void> {
         const files = this.walk(path.join(root, folder)).filter((file) =>
-            [".ts", ".js"].some((ext) => {
-                return file.endsWith(ext);
-            })
+            [".ts", ".js"].some((ext) => file.endsWith(ext))
         );
         const bot = BotFactory.getBot();
         const logger = LoggerFactory.getLogger(module);
@@ -45,9 +43,9 @@ export default class ModResolutionService {
         for (let i = 0; i < files.length; i += 1) {
             const file = files[i];
             const task = import(file);
-            task.then((module) => {
+            task.then((mod) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const result = module.default;
+                const result = mod.default;
                 if (!result) {
                     logger.error(
                         `File at path ${file} seems to ` +

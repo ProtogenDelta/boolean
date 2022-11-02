@@ -1,21 +1,14 @@
 import { Colors, EmbedBuilder, TextChannel } from "discord.js";
-import pino, { Logger as PinoLogger, LoggerOptions } from "pino";
 import { getSpecialChannel } from "../../modules/simple/database";
-import ILogger from "../../interfaces/ILogger";
+import ILogger, { ToString } from "../../interfaces/ILogger";
 import EmbedFactory from "../EmbedFactory";
 
 export default class ServerLogger implements ILogger {
-    private readonly console: PinoLogger;
-
     private readonly guildId: string;
 
     private readonly module: string;
 
-    constructor(module: string, guildId: string, options: LoggerOptions = {}) {
-        this.console = pino({
-            transport: { target: "pino-pretty" },
-            ...options,
-        });
+    constructor(module: string, guildId: string) {
         this.guildId = guildId;
         this.module = module;
     }
@@ -24,7 +17,7 @@ export default class ServerLogger implements ILogger {
         this.postLevel("debug", ...messages);
     }
 
-    public error(message: string, error: any): void {
+    public error(message: string, error: ToString): void {
         this.postLevel("error", message, error.toString());
     }
 
